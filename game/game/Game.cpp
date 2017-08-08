@@ -32,7 +32,7 @@ void Game::initGL()
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 
 	glutInitWindowSize(getWidthWindow(), getHeightWindow());
-	glutCreateWindow("Zombie");
+	glutCreateWindow("Zombie Nah");
 	glClearColor(0.0, 0, 0, 0);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
