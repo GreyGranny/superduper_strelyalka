@@ -23,7 +23,6 @@ Game::Game(int wWidth, int wHeight)
 	player = new Player();
 }
 
-
 Game::~Game()
 {
 }

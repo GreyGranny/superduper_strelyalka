@@ -39,6 +39,5 @@ public:
 	static void eventMouseUpMotion(int, int);
 	static void display();
 	static void timer(int);
-
 };
 #endif
