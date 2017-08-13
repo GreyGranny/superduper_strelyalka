@@ -13,14 +13,20 @@ Game::Game(int wWidth, int wHeight)
 
 	Game::instance = this;
 
-	widthWindow = wWidth;
-	heightWindow = wHeight;
+	windowWidth = wWidth;
+	windowHeight = wHeight;
 
-	widthWorld = 2 * widthWindow;
-	heightWorld = 2 * heightWindow;
+	mapWidth = 2 * windowWidth;
+	mapHeight = 2 * windowHeight;
+	
+	playerAreaBLPoint = Point(windowWidth*0.25, windowHeight*0.25);
+	playerAreaTRPoint = Point(windowWidth*0.75, windowHeight*0.75);
 
 	delay = 15;
 	player = new Player();
+
+	Point position = player->character->getPosition();
+	camera = Point(position.x -  windowWidth/2, position.y -  windowHeight/2);
 }
 
 Game::~Game()
@@ -34,8 +40,8 @@ void Game::initGL()
 	glutInitWindowSize(getWidthWindow(), getHeightWindow());
 	glutCreateWindow("Zombie Nah");
 	glClearColor(0.0, 0, 0, 0);
-	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
+	glMatrixMode(GL_PROJECTION);
 	gluOrtho2D(0, getWidthWindow(), 0, getHeightWindow());
 
 	glutFullScreen();
@@ -49,13 +55,18 @@ void Game::initGL()
 
 	glutDisplayFunc(display);
 	glutTimerFunc(delay, timer, 0);
+}
 
-	glutMainLoop();
+void Game::initMap()
+{
+
 }
 
 void Game::run()
 {
 	initGL();
+	initMap();
+	glutMainLoop();
 }
 
 void Game::exit()
@@ -63,42 +74,54 @@ void Game::exit()
 	::exit(0);
 }
 
-Game* Game::current()
-{
-	return Game::instance;
-}
-
-int Game::getHeightWindow()
-{
-	return current()->heightWindow;
-}
-
-int Game::getWidthWindow()
-{
-	return current()->widthWindow;
-}
-
-int Game::getHeightWorld()
-{
-	return current()->heightWorld;
-}
-int Game::getWidthWorld()
-{
-	return current()->widthWorld;
-}
-
-int Game::getDelay()
-{
-	return delay;
-}
-
-void Game::setDelay(int d)
-{
-	delay = d;
-}
-
 void Game::drawScene()
 {
+	Point position = player->character->getPosition();
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	if (position.x > (camera.x + playerAreaTRPoint.x))
+		camera.x = position.x - playerAreaTRPoint.x;
+
+	if (position.x < (camera.x + playerAreaBLPoint.x))
+		camera.x = position.x - playerAreaBLPoint.x;
+
+	if (position.y >(camera.y + playerAreaTRPoint.y))
+		camera.y = position.y - playerAreaTRPoint.y;
+
+	if (position.y < (camera.y + playerAreaBLPoint.y))
+		camera.y = position.y - playerAreaBLPoint.y;
+	
+
+	glColor3f(0, 1, 0);
+	glBegin(GL_LINES);
+
+	glVertex2d(playerAreaBLPoint.x, playerAreaBLPoint.y);
+	glVertex2d(playerAreaBLPoint.x, playerAreaTRPoint.y);
+	glVertex2d(playerAreaBLPoint.x, playerAreaBLPoint.y);
+	glVertex2d(playerAreaTRPoint.x, playerAreaBLPoint.y);
+	glVertex2d(playerAreaTRPoint.x, playerAreaBLPoint.y);
+	glVertex2d(playerAreaTRPoint.x, playerAreaTRPoint.y);
+	glVertex2d(playerAreaBLPoint.x, playerAreaTRPoint.y);
+	glVertex2d(playerAreaTRPoint.x, playerAreaTRPoint.y);
+
+	glEnd();
+
+	glTranslatef(-camera.x, -camera.y, 0.0f);
+
+	glColor3f(1, 0, 0);
+	glBegin(GL_QUADS);
+
+	for (int i = 0; i < 10; i++)
+	{
+		glVertex2d(i * 200, i * 200);
+		glVertex2d(i * 200+10, i * 200+10);
+		glVertex2d(i * 200+10, i * 200);
+		glVertex2d(i * 200, i * 200+10);
+	}
+
+	glEnd();
+
 	player->character->draw();
 }
 
@@ -168,4 +191,54 @@ void Game::eventMouseUpMotion(int x, int y)
 {
 	Game* game = current();
 	game->player->setMouseCoordinates(x, y);
+}
+
+
+Game* Game::current()
+{
+	return Game::instance;
+}
+
+int Game::getHeightWindow()
+{
+	return current()->windowHeight;
+}
+
+int Game::getWidthWindow()
+{
+	return current()->windowWidth;
+}
+
+int Game::getHeightWorld()
+{
+	return current()->mapHeight;
+}
+int Game::getWidthWorld()
+{
+	return current()->mapWidth;
+}
+
+int Game::getDelay()
+{
+	return delay;
+}
+
+void Game::setDelay(int d)
+{
+	delay = d;
+}
+
+Point Game::getPlayerAreaBLPoint()
+{
+	return current()->playerAreaBLPoint;
+}
+
+Point Game::getPlayerAreaTRPoint()
+{
+	return current()->playerAreaTRPoint;
+}
+
+Point Game::getCamera()
+{
+	return current()->camera;
 }

@@ -24,8 +24,9 @@ Point Player::getMouseCoordinates()
 
 void Player::setMouseCoordinates(float x, float y)
 {
-	mouseCoord.x = x;
-	mouseCoord.y = Game::current()->getHeightWindow() - y;
+	Point camera = Game::current()->getCamera();
+	mouseCoord.x = camera.x + x;
+	mouseCoord.y = Game::current()->getHeightWindow() - y + camera.y;
 }
 
 bool Player::getMouseDown()

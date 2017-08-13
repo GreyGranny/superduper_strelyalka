@@ -10,8 +10,8 @@ Character::Character()
 	health = 200;
 	maxHealth = 200;
 	
-	centerCoord.x = 400.0f;
-	centerCoord.y = 200.0f;
+	position.x = 0.0f;
+	position.y = 0.0f;
 
 	tops[0].x = -30;
 	tops[0].y = -25;
@@ -30,8 +30,8 @@ Character::Character()
 
 void Character::rotation(Point mouse_coord)
 {
-	float catet1 = mouse_coord.x - centerCoord.x;
-	float catet2 = mouse_coord.y - centerCoord.y;
+	float catet1 = mouse_coord.x - position.x;
+	float catet2 = mouse_coord.y - position.y;
 	angle = atan(catet2/catet1);
 	
 	if(catet1 < 0)
@@ -42,8 +42,8 @@ void Character::moveUp()
 	float dy = 0, dx = 0;
 	dy += speed;
 
-	if (centerCoord.y + radius >= Game::getHeightWindow())
-		dy = 0;
+	//if (position.y + radius >= Game::getHeightWorld())
+	//	dy = 0;
 
 	moveCenter(dx, dy);
 }
@@ -53,8 +53,8 @@ void Character::moveDown()
 	float dy = 0, dx = 0;
 	dy -= speed;
 
-	if (centerCoord.y - radius <= 0)
-		dy = 0;
+	//if (position.y - radius <= 0)
+	//	dy = 0;
 
 	moveCenter(dx, dy);
 }
@@ -65,8 +65,8 @@ void Character::moveLeft()
 
 	dx -= speed;
 	
-	if (centerCoord.x - radius <= 0)
-		dx = 0;
+	//if (position.x - radius <= 0)
+	//	dx = 0;
 
 	moveCenter(dx, dy);
 }
@@ -77,8 +77,8 @@ void Character::moveRight()
 
 	dx += speed;
 
-	if (centerCoord.x + radius >= Game::getWidthWindow())
-		dx = 0;
+	//if (position.x + radius >= Game::getWidthWorld())
+	//	dx = 0;
 
 	moveCenter(dx, dy);
 }
@@ -90,8 +90,8 @@ void Character::draw()
 
 	for (int i = 0; i < 4; i++)
 	{
-		points[i].x = tops[i].x*cos(angle) - tops[i].y*sin(angle) + centerCoord.x;
-		points[i].y = tops[i].y*cos(angle) + tops[i].x*sin(angle) + centerCoord.y;
+		points[i].x = tops[i].x*cos(angle) - tops[i].y*sin(angle) + position.x;
+		points[i].y = tops[i].y*cos(angle) + tops[i].x*sin(angle) + position.y;
 
 		glVertex2d(points[i].x, points[i].y); 
 	}
@@ -101,11 +101,14 @@ void Character::draw()
 
 void Character::moveCenter(int x, int y)
 {
-	centerCoord.x += x;
-	centerCoord.y += y;
+	position.x += x;
+	position.y += y;
 }
 
-
+Point Character::getPosition()
+{
+	return position;
+}
 
 
 

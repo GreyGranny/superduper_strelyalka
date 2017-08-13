@@ -13,7 +13,7 @@ class Character
 
 	Point points[4];
 	Point tops[4];
-	Point centerCoord;
+	Point position;
 	
 	float radius;
 	float angle;
@@ -31,6 +31,7 @@ public:
 	void moveCenter(int, int);
 	void draw();
 	void rotation(Point);
+	Point getPosition();
 };
 
 #endif

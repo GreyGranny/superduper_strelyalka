@@ -11,9 +11,13 @@ using namespace std;
 class Game
 {
 	static Game* instance;
-	int widthWindow, heightWindow;
-	int widthWorld, heightWorld;
+	int windowWidth, windowHeight;
+	int mapWidth, mapHeight;
 	int delay;
+	Point playerAreaBLPoint;
+	Point playerAreaTRPoint;
+	Point camera;
+
 public:
 	Player* player;
 
@@ -24,6 +28,7 @@ public:
 	void update();
 	void drawScene();
 	void initGL();
+	void initMap();
 	void run();
 	void exit();
 
@@ -39,5 +44,8 @@ public:
 	static void eventMouseUpMotion(int, int);
 	static void display();
 	static void timer(int);
+	static Point getPlayerAreaBLPoint();
+	static Point getPlayerAreaTRPoint();
+	static Point getCamera();
 };
 #endif
