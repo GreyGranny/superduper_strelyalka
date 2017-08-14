@@ -26,6 +26,8 @@ Character::Character()
 	tops[3].y = +25;
 	
 	speed = 5;
+
+	weapon = new Weapon();
 }
 
 void Character::rotation(Point mouse_coord)
@@ -37,50 +39,19 @@ void Character::rotation(Point mouse_coord)
 	if(catet1 < 0)
 		angle += 3.14159265359;
 }
-void Character::moveUp()
+
+void Character::moveVertical(int sign)
 {
 	float dy = 0, dx = 0;
-	dy += speed;
-
-	//if (position.y + radius >= Game::getHeightWorld())
-	//	dy = 0;
-
-	moveCenter(dx, dy);
+	dy = (speed*sign);
+	setPosition(dx, dy);
 }
 
-void Character::moveDown()
+void Character::moveHorizontal(int sign)
 {
 	float dy = 0, dx = 0;
-	dy -= speed;
-
-	//if (position.y - radius <= 0)
-	//	dy = 0;
-
-	moveCenter(dx, dy);
-}
-
-void Character::moveLeft()
-{
-	float dy = 0, dx = 0;
-
-	dx -= speed;
-	
-	//if (position.x - radius <= 0)
-	//	dx = 0;
-
-	moveCenter(dx, dy);
-}
-
-void Character::moveRight()
-{
-	float dy = 0, dx = 0;
-
-	dx += speed;
-
-	//if (position.x + radius >= Game::getWidthWorld())
-	//	dx = 0;
-
-	moveCenter(dx, dy);
+	dx = (speed*sign);
+	setPosition(dx, dy);
 }
 
 void Character::draw()
@@ -97,9 +68,10 @@ void Character::draw()
 	}
 
 	glEnd();
+	weapon->drawBullets();
 }
 
-void Character::moveCenter(int x, int y)
+void Character::setPosition(int x, int y)
 {
 	position.x += x;
 	position.y += y;
@@ -109,6 +81,12 @@ Point Character::getPosition()
 {
 	return position;
 }
+
+float Character::getAngle()
+{
+	return angle;
+}
+
 
 
 

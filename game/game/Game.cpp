@@ -26,7 +26,7 @@ Game::Game(int wWidth, int wHeight)
 	player = new Player();
 
 	Point position = player->character->getPosition();
-	camera = Point(position.x -  windowWidth/2, position.y -  windowHeight/2);
+	camera = Point(position.x -  windowWidth*0.5, position.y -  windowHeight*0.5);
 }
 
 Game::~Game()
@@ -44,7 +44,7 @@ void Game::initGL()
 	glMatrixMode(GL_PROJECTION);
 	gluOrtho2D(0, getWidthWindow(), 0, getHeightWindow());
 
-	glutFullScreen();
+	//glutFullScreen();
 
 	glutKeyboardFunc(eventKeyboard);
 	glutKeyboardUpFunc(eventKeyboardUp);
@@ -80,19 +80,22 @@ void Game::drawScene()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
+
+	// меняем позицию камеры, если персонаж выходят за заданную область
 	if (position.x > (camera.x + playerAreaTRPoint.x))
 		camera.x = position.x - playerAreaTRPoint.x;
 
 	if (position.x < (camera.x + playerAreaBLPoint.x))
 		camera.x = position.x - playerAreaBLPoint.x;
 
-	if (position.y >(camera.y + playerAreaTRPoint.y))
+	if (position.y > (camera.y + playerAreaTRPoint.y))
 		camera.y = position.y - playerAreaTRPoint.y;
 
 	if (position.y < (camera.y + playerAreaBLPoint.y))
 		camera.y = position.y - playerAreaBLPoint.y;
 	
 
+	// для удобства  - потом удалить
 	glColor3f(0, 1, 0);
 	glBegin(GL_LINES);
 
@@ -106,6 +109,7 @@ void Game::drawScene()
 	glVertex2d(playerAreaTRPoint.x, playerAreaTRPoint.y);
 
 	glEnd();
+	//------//
 
 	glTranslatef(-camera.x, -camera.y, 0.0f);
 
@@ -151,10 +155,11 @@ void Game::eventKeyboard(unsigned char key, int a, int b)
 	Game* game = Game::current();
 	switch(key)
 	{
-		case 'w': case 246 : game->player->setUpPress(true); break;             
-		case 'd': case 226 : game->player->setRightPress(true); break;
-		case 'a': case 244 : game->player->setLeftPress(true); break;
-		case 's': case 251: case 179: game->player->setDownPress(true); break;
+		case 'w': case 'W': case 246 : game->player->setUpPress(true); break;
+		case 'd': case 'D': case 226 : game->player->setRightPress(true); break;
+		case 'a': case 'A': case 244 : game->player->setLeftPress(true); break;
+		case 's': case 'S': case 251: case 179: game->player->setDownPress(true); break;
+		case 'r': case 'R': case 202: case 234: game->player->character->weapon->recharge(); break;
 		case 27: game->exit(); break;
 	}
 }

@@ -5,16 +5,16 @@
 #include <iostream>
 #include <math.h>
 #include "Global.h"
+#include "Weapon.h"
 
 using namespace std;
 
 class Character
 {
-
 	Point points[4];
 	Point tops[4];
 	Point position;
-	
+
 	float radius;
 	float angle;
 	float speed;
@@ -23,15 +23,16 @@ class Character
 
 public:
 	
+	Weapon *weapon;
+
 	Character();
-	void moveUp();
-	void moveDown();
-	void moveLeft();
-	void moveRight();
-	void moveCenter(int, int);
+	void moveVertical(int);
+	void moveHorizontal(int);
 	void draw();
 	void rotation(Point);
+	void setPosition(int, int);
 	Point getPosition();
+	float getAngle();
 };
 
 #endif

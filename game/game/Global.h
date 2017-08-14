@@ -10,10 +10,8 @@ struct Point
 {
 	float x,y;
 
-	Point()
-	{
+	Point(){}
 
-	}
 	Point(int _x, int _y)
 	{
 		x = _x;

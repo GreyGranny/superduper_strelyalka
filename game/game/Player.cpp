@@ -77,11 +77,16 @@ void Player::update()
 	Point mouse_coord = getMouseCoordinates();
 	character->rotation(mouse_coord);
 	if (isUpPress())
-		character->moveUp();
+		character->moveVertical(1);
 	if (isDownPress())
-		character->moveDown();
+		character->moveVertical(-1);
 	if (isRightPress())
-		character->moveRight();
+		character->moveHorizontal(1);
 	if (isLeftPress())
-		character->moveLeft();
+		character->moveHorizontal(-1);
+
+	if (mouseDown)
+		character->weapon->shoot(character->getPosition(), character->getAngle());
+
+	character->weapon->updateBullets();
 }
