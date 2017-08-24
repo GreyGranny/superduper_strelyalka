@@ -20,7 +20,7 @@ class Game
 	Point playerAreaTRPoint;
 	Point camera;
 
-	list<Enemy*> enemyList; // список врагов
+	list<Enemy*> enemyList; //  список врагов
 
 public:
 	Player* player;
