@@ -1,4 +1,4 @@
-#ifndef __GAME__
+п»ї#ifndef __GAME__
 #define __GAME__
 
 #include <glut.h>
@@ -20,7 +20,7 @@ class Game
 	Point playerAreaTRPoint;
 	Point camera;
 
-	list<Enemy*> enemyList; //  список врагов
+	list<Enemy*> enemyList; //  СЃРїРёСЃРѕРє РІСЂР°РіРѕРІ
 
 public:
 	Player* player;

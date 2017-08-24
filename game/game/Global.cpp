@@ -1,4 +1,4 @@
-#include "Global.h"
+﻿#include "Global.h"
 
 void Global::textOut(int x, int y, char *string)
 {

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef __GLOBAL__
 #define __GLOBAL__
 # include <glut.h>

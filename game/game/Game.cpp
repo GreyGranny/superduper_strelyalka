@@ -1,4 +1,4 @@
-# include <glut.h>
+п»ї# include <glut.h>
 # include <stdlib.h>
 # include "Game.h"
 # include "Character.h"
@@ -86,7 +86,7 @@ void Game::drawScene()
 	glLoadIdentity();
 
 
-	// меняем позицию камеры, если персонаж выходят за заданную область
+	// РјРµРЅСЏРµРј РїРѕР·РёС†РёСЋ РєР°РјРµСЂС‹, РµСЃР»Рё РїРµСЂСЃРѕРЅР°Р¶ РІС‹С…РѕРґСЏС‚ Р·Р° Р·Р°РґР°РЅРЅСѓСЋ РѕР±Р»Р°СЃС‚СЊ
 	if (position.x > (camera.x + playerAreaTRPoint.x))
 		camera.x = position.x - playerAreaTRPoint.x;
 
@@ -100,7 +100,7 @@ void Game::drawScene()
 		camera.y = position.y - playerAreaBLPoint.y;
 	
 
-	// для удобства  - потом удалить
+	// РґР»СЏ СѓРґРѕР±СЃС‚РІР°  - РїРѕС‚РѕРј СѓРґР°Р»РёС‚СЊ
 	glColor3f(0, 1, 0);
 	glBegin(GL_LINES);
 
@@ -174,7 +174,7 @@ void Game::display()
 	glFlush();
 }
 
-//обработка нажатия клавиш
+//РѕР±СЂР°Р±РѕС‚РєР° РЅР°Р¶Р°С‚РёСЏ РєР»Р°РІРёС€
 void Game::eventKeyboard(unsigned char key, int a, int b)
 {
 	Game* game = Game::current();
@@ -189,7 +189,7 @@ void Game::eventKeyboard(unsigned char key, int a, int b)
 	}
 }
 
-//обработка отжатия клавиш
+//РѕР±СЂР°Р±РѕС‚РєР° РѕС‚Р¶Р°С‚РёСЏ РєР»Р°РІРёС€
 void Game::eventKeyboardUp(unsigned char key, int a, int b)
 {   
 	Game* game = Game::current();
@@ -202,21 +202,21 @@ void Game::eventKeyboardUp(unsigned char key, int a, int b)
 	}
 }
 
-// обработка нажатия клавишей мышы
+// РѕР±СЂР°Р±РѕС‚РєР° РЅР°Р¶Р°С‚РёСЏ РєР»Р°РІРёС€РµР№ РјС‹С€С‹
 void Game::eventMouseDown(int button, int state, int x, int y)
 {
 	Game* game = current();
 	game->player->setMouseDown(state == GLUT_DOWN);
 }
 
-// обработка перемещения курсора
+// РѕР±СЂР°Р±РѕС‚РєР° РїРµСЂРµРјРµС‰РµРЅРёСЏ РєСѓСЂСЃРѕСЂР°
 void Game::eventMouseMotion(int x, int y)
 {
 	Game* game = current();
 	game->player->setMouseCoordinates(x, y);
 }
 
-//обработка перемещения курсора при нажатой клавише мышы
+//РѕР±СЂР°Р±РѕС‚РєР° РїРµСЂРµРјРµС‰РµРЅРёСЏ РєСѓСЂСЃРѕСЂР° РїСЂРё РЅР°Р¶Р°С‚РѕР№ РєР»Р°РІРёС€Рµ РјС‹С€С‹
 void Game::eventMouseUpMotion(int x, int y)
 {
 	Game* game = current();

@@ -1,4 +1,4 @@
-#ifndef __CHARACTER__
+﻿#ifndef __CHARACTER__
 #define __CHARACTER__
 
 #include <glut.h>

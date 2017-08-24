@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 #ifndef __WEAPON__
 #define __WEAPON__
 #include <iostream>
@@ -11,25 +11,25 @@
 
 class Weapon
 {
-	int damage;		      // наносимый урон
-	int capacityCollar;   // вместимость магазина
-	int avalibleBullets;  // кол-во пуль доступных для стрельбы
-	int maxOfBullets;     // максимально кол-во патронов
-	int countBullets;     // доступное кол-во патронов
-	int rateOfFire;     // скорострельность
-	long lastShootTime;   // время последнего выстрела
-	float bulletSpeed;    // скорость пуль
-	float bulletLife; // время жизни пуль
+	int damage;		      // РЅР°РЅРѕСЃРёРјС‹Р№ СѓСЂРѕРЅ
+	int capacityCollar;   // РІРјРµСЃС‚РёРјРѕСЃС‚СЊ РјР°РіР°Р·РёРЅР°
+	int avalibleBullets;  // РєРѕР»-РІРѕ РїСѓР»СЊ РґРѕСЃС‚СѓРїРЅС‹С… РґР»СЏ СЃС‚СЂРµР»СЊР±С‹
+	int maxOfBullets;     // РјР°РєСЃРёРјР°Р»СЊРЅРѕ РєРѕР»-РІРѕ РїР°С‚СЂРѕРЅРѕРІ
+	int countBullets;     // РґРѕСЃС‚СѓРїРЅРѕРµ РєРѕР»-РІРѕ РїР°С‚СЂРѕРЅРѕРІ
+	int rateOfFire;     // СЃРєРѕСЂРѕСЃС‚СЂРµР»СЊРЅРѕСЃС‚СЊ
+	long lastShootTime;   // РІСЂРµРјСЏ РїРѕСЃР»РµРґРЅРµРіРѕ РІС‹СЃС‚СЂРµР»Р°
+	float bulletSpeed;    // СЃРєРѕСЂРѕСЃС‚СЊ РїСѓР»СЊ
+	float bulletLife; // РІСЂРµРјСЏ Р¶РёР·РЅРё РїСѓР»СЊ
 
 
-	//list<Bullet*> bulletList; // список пуль
+	//list<Bullet*> bulletList; // СЃРїРёСЃРѕРє РїСѓР»СЊ
 
 public:
 	Weapon();
 	~Weapon();
 
-	void shoot(Point, float);    // стрельба
-	void recharge(); // перезарядка
+	void shoot(Point, float);    // СЃС‚СЂРµР»СЊР±Р°
+	void recharge(); // РїРµСЂРµР·Р°СЂСЏРґРєР°
 	void update();
 	void draw();
 };

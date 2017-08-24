@@ -1,4 +1,4 @@
-#include "Weapon.h"
+п»ї#include "Weapon.h"
 #include "Game.h"
 
 using namespace std;
@@ -81,14 +81,14 @@ void Weapon::shoot(Point position, float angle)
 	if(diff >= rateOfFire)
 	{
 		if (avalibleBullets > 0) {
-			avalibleBullets--; // уменьшаем кол-во пуль доступных к стрельбе
-			lastShootTime = now; // время последнего выстрела
+			avalibleBullets--; // СѓРјРµРЅСЊС€Р°РµРј РєРѕР»-РІРѕ РїСѓР»СЊ РґРѕСЃС‚СѓРїРЅС‹С… Рє СЃС‚СЂРµР»СЊР±Рµ
+			lastShootTime = now; // РІСЂРµРјСЏ РїРѕСЃР»РµРґРЅРµРіРѕ РІС‹СЃС‚СЂРµР»Р°
 			Bullet* b = new Bullet(position, angle, bulletSpeed, bulletLife, damage);
 			Game::current()->bulletManager->push(b);
 			//bulletList.push_back(b);
 		}
 		else {
-			// выдать звук пустого магазина
+			// РІС‹РґР°С‚СЊ Р·РІСѓРє РїСѓСЃС‚РѕРіРѕ РјР°РіР°Р·РёРЅР°
 			cout << "no bullets" << endl;
 		}
 	}
@@ -102,12 +102,12 @@ void Weapon::recharge()
 		if (add > countBullets)
 			add = countBullets;
 		avalibleBullets += add;
-		countBullets -= add; // уменьшаем общее кол-во пуль
-		// выдать звук перезарядки
+		countBullets -= add; // СѓРјРµРЅСЊС€Р°РµРј РѕР±С‰РµРµ РєРѕР»-РІРѕ РїСѓР»СЊ
+		// РІС‹РґР°С‚СЊ Р·РІСѓРє РїРµСЂРµР·Р°СЂСЏРґРєРё
 		cout << "recharge" << endl;
 	}
 	else {
-		// выдать звук пустого магазина
+		// РІС‹РґР°С‚СЊ Р·РІСѓРє РїСѓСЃС‚РѕРіРѕ РјР°РіР°Р·РёРЅР°
 		cout << "can't recharge" << endl;
 	}
 }

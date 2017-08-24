@@ -1,4 +1,4 @@
-#include <glut.h>
+﻿#include <glut.h>
 #include <windows.h>
 #include <stdlib.h>
 #include "Game.h"

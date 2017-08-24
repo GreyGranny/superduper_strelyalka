@@ -1,4 +1,4 @@
-#ifndef __MOVABLE__
+﻿#ifndef __MOVABLE__
 #define __MOVABLE__
 
 #pragma once
