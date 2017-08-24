@@ -44,14 +44,14 @@ void Character::moveVertical(int sign)
 {
 	float dy = 0, dx = 0;
 	dy = (speed*sign);
-	setPosition(dx, dy);
+	move(dx, dy);
 }
 
 void Character::moveHorizontal(int sign)
 {
 	float dy = 0, dx = 0;
 	dx = (speed*sign);
-	setPosition(dx, dy);
+	move(dx, dy);
 }
 
 void Character::draw()
@@ -68,24 +68,20 @@ void Character::draw()
 	}
 
 	glEnd();
-	weapon->drawBullets();
+	weapon->draw();
 }
 
-void Character::setPosition(int x, int y)
-{
-	position.x += x;
-	position.y += y;
-}
+//void Character::setPosition(int x, int y)
+//{
+//	position.x += x;
+//	position.y += y;
+//}
 
-Point Character::getPosition()
-{
-	return position;
-}
 
-float Character::getAngle()
-{
-	return angle;
-}
+//float Character::getAngle()
+//{
+//	return angle;
+//}
 
 
 

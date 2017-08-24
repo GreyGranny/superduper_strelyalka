@@ -24,6 +24,7 @@ Game::Game(int wWidth, int wHeight)
 
 	delay = 15;
 	player = new Player();
+	bulletManager = new BulletManager();
 
 	Point position = player->character->getPosition();
 	camera = Point(position.x -  windowWidth*0.5, position.y -  windowHeight*0.5);
@@ -66,6 +67,10 @@ void Game::run()
 {
 	initGL();
 	initMap();
+
+	Enemy *en = new Enemy();
+	enemyList.push_back(en);
+
 	glutMainLoop();
 }
 
@@ -112,7 +117,6 @@ void Game::drawScene()
 	//------//
 
 	glTranslatef(-camera.x, -camera.y, 0.0f);
-
 	glColor3f(1, 0, 0);
 	glBegin(GL_QUADS);
 
@@ -126,12 +130,33 @@ void Game::drawScene()
 
 	glEnd();
 
+
+	if (!enemyList.empty())
+	{
+		list<Enemy*>::iterator iter = enemyList.begin();
+		while (iter != enemyList.end()) {
+			(*iter)->draw();
+			iter++;
+		}
+	}
+	bulletManager->draw();
 	player->character->draw();
+
 }
 
 void Game::update()
 {
 	player->update();
+
+	if (!enemyList.empty())
+	{
+		list<Enemy*>::iterator iter = enemyList.begin();
+		while (iter != enemyList.end()) {
+			(*iter)->update();
+			iter++;
+		}
+	}
+	bulletManager->update();
 }
 
 void Game::timer(int = 0)

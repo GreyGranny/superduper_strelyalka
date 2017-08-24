@@ -4,6 +4,8 @@
 # include <glut.h>
 # include <string>
 
+# define M_PI           3.14159265358979323846
+
 using namespace std;
 
 struct Point
@@ -12,7 +14,7 @@ struct Point
 
 	Point(){}
 
-	Point(int _x, int _y)
+	Point(float _x, float _y)
 	{
 		x = _x;
 		y = _y;
@@ -21,7 +23,8 @@ struct Point
 
 class Global
 {
-
+public:
+	static void textOut(int, int, char*);
 };
 
 #endif

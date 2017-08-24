@@ -4,22 +4,24 @@
 #include <glut.h>
 #include <iostream>
 #include <math.h>
+#include "Movable.h"
 #include "Global.h"
 #include "Weapon.h"
 
 using namespace std;
 
-class Character
+class Character: public Movable
 {
 	Point points[4];
 	Point tops[4];
-	Point position;
 
-	float radius;
-	float angle;
-	float speed;
 	int health;
 	int maxHealth;
+	float radius;
+
+	//Point position
+	//float angle;
+	//float speed;
 
 public:
 	
@@ -30,9 +32,8 @@ public:
 	void moveHorizontal(int);
 	void draw();
 	void rotation(Point);
-	void setPosition(int, int);
-	Point getPosition();
-	float getAngle();
+	//float getAngle();
+	//void setPosition(int, int);
 };
 
 #endif

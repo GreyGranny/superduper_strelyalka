@@ -6,7 +6,7 @@
 #include <list>
 #include <iterator>
 #include "Global.h"
-#include "Bullet.h";
+#include "Bullet.h"
 
 
 class Weapon
@@ -19,8 +19,10 @@ class Weapon
 	int rateOfFire;     // скорострельность
 	long lastShootTime;   // время последнего выстрела
 	float bulletSpeed;    // скорость пуль
+	float bulletLife; // время жизни пуль
 
-	list<Bullet> bulletList; // список пуль
+
+	//list<Bullet*> bulletList; // список пуль
 
 public:
 	Weapon();
@@ -28,8 +30,8 @@ public:
 
 	void shoot(Point, float);    // стрельба
 	void recharge(); // перезарядка
-	void updateBullets();
-	void drawBullets();
+	void update();
+	void draw();
 };
 
 #endif

@@ -1,4 +1,5 @@
 #include "Weapon.h"
+#include "Game.h"
 
 using namespace std;
 
@@ -11,35 +12,65 @@ Weapon::Weapon()
 	lastShootTime = 0;
 	rateOfFire = 200;
 	damage = 10;
-	bulletSpeed = 5;
+	bulletSpeed = 7;
+	bulletLife = 1000;
 }
 
 Weapon::~Weapon()
 {
 }
 
-void Weapon::updateBullets()
+void Weapon::update()
 {
-	if (!bulletList.empty())
-	{
-		list<Bullet>::iterator iter = bulletList.begin();
-		while (iter != bulletList.end()) {
-			iter->update();
-			iter++;
-		}
-	}
+	//if (!bulletList.empty())
+	//{
+	//	list<Bullet*>::iterator iter = bulletList.begin();
+	//	while (iter != bulletList.end()) {
+	//		(*iter)->update();
+	//		if (!(*iter)->isLive())
+	//		{
+	//			cout << "die" << endl;
+	//			delete (*iter);
+	//			iter = bulletList.erase(iter);
+	//		} else
+	//			iter++;
+	//	}
+	//}
 }
 
-void Weapon::drawBullets()
+void Weapon::draw()
 {
-	if (!bulletList.empty())
-	{
-		list<Bullet>::iterator iter = bulletList.begin();
-		while (iter != bulletList.end()) {
-			iter->draw();
-			iter++;
-		}
-	}
+	//if (!bulletList.empty())
+	//{
+	//	list<Bullet*>::iterator iter = bulletList.begin();
+	//	while ( iter != bulletList.end() ) {
+	//		(*iter)->draw();
+	//		iter++;
+	//	}
+	//}
+	char textAvalibleBullets[6] = "";
+	char textCountBullets[6] = "";
+	char textMaxBullets[6] = "";
+	char separator[2] = "/";
+
+	itoa(avalibleBullets, textAvalibleBullets, 10);
+	itoa(countBullets, textCountBullets, 10);
+	itoa(maxOfBullets, textMaxBullets, 10);
+
+	glPushMatrix();
+	glLoadIdentity();
+
+	glColor3f(0.41, 0.13, 0.48);
+
+	Global::textOut(50, Game::current()->getHeightWindow() - 50, "Avalible bullets");
+	Global::textOut(220, Game::current()->getHeightWindow() - 50, textAvalibleBullets);
+
+	Global::textOut(50, Game::current()->getHeightWindow() - 80, "Bullets");
+	Global::textOut(150, Game::current()->getHeightWindow() - 80, textCountBullets);
+	Global::textOut(190, Game::current()->getHeightWindow() - 80, separator);
+	Global::textOut(200, Game::current()->getHeightWindow() - 80, textMaxBullets);
+
+	glPopMatrix();
 }
 
 void Weapon::shoot(Point position, float angle)
@@ -49,12 +80,12 @@ void Weapon::shoot(Point position, float angle)
 
 	if(diff >= rateOfFire)
 	{
-		if (countBullets > 0 && avalibleBullets > 0) {
-			cout << "shoot " << endl;
+		if (avalibleBullets > 0) {
 			avalibleBullets--; // уменьшаем кол-во пуль доступных к стрельбе
 			lastShootTime = now; // врем€ последнего выстрела
-			Bullet *b = new Bullet(position, angle, bulletSpeed);
-			bulletList.push_back(*b);
+			Bullet* b = new Bullet(position, angle, bulletSpeed, bulletLife, damage);
+			Game::current()->bulletManager->push(b);
+			//bulletList.push_back(b);
 		}
 		else {
 			// выдать звук пустого магазина
@@ -67,15 +98,11 @@ void Weapon::recharge()
 {
 	if (countBullets > 0)
 	{
-		if (countBullets > capacityCollar)
-		{
-			avalibleBullets = capacityCollar; // кол-во пуль доступных к стрельбе = вместимость магазина
-			countBullets -= capacityCollar; // уменьшаем общее кол-во пуль
-		}
-		else {
-			avalibleBullets = countBullets;
-			countBullets = 0;
-		}
+		int add = capacityCollar - avalibleBullets;
+		if (add > countBullets)
+			add = countBullets;
+		avalibleBullets += add;
+		countBullets -= add; // уменьшаем общее кол-во пуль
 		// выдать звук перезар€дки
 		cout << "recharge" << endl;
 	}

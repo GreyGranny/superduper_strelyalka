@@ -88,5 +88,5 @@ void Player::update()
 	if (mouseDown)
 		character->weapon->shoot(character->getPosition(), character->getAngle());
 
-	character->weapon->updateBullets();
+	character->weapon->update();
 }

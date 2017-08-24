@@ -5,6 +5,8 @@
 #include <iostream>
 #include "Character.h"
 #include "Player.h"
+#include "Enemy.h"
+#include "BulletManager.h"
 
 using namespace std;
 
@@ -18,8 +20,11 @@ class Game
 	Point playerAreaTRPoint;
 	Point camera;
 
+	list<Enemy*> enemyList; // список врагов
+
 public:
 	Player* player;
+	BulletManager *bulletManager;
 
 	Game(int, int);
 	~Game();
