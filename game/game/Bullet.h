@@ -10,16 +10,8 @@
 
 class Bullet: public Movable
 {
-	Point points[3];
-	Point tops[3];
-
-	//Point position;
-	//float angle;
-	//float speed;
-
 	float radius;
 	float angleRotate;
-	float rotation;
 
 	float dx;
 	float dy;
@@ -32,10 +24,10 @@ class Bullet: public Movable
 public:
 	Bullet(Point, float, int, int, int);
 	~Bullet();
-	void draw();
 	void update();
-	void rotate();
+	void die();
 	bool isLive();
+	int getDamage();
 };
 
 #endif

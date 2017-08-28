@@ -1,14 +1,18 @@
 ﻿#include "Enemy.h"
 #include "Game.h"
+#include <vector>
 
-Enemy::Enemy()
+Enemy::Enemy(float x, float y)
 {
 	radius = 15.0;
 	angle = 0.0;
 	health = maxHealth = 100;
 
-	position.x = 10.0f;
-	position.y = 10.0f;
+	position.x = x;
+	position.y = y;
+
+	tops = vector<Point>(4);
+	points = vector<Point>(4);
 
 	tops[0].x = -10;
 	tops[0].y = -7;
@@ -22,12 +26,18 @@ Enemy::Enemy()
 	tops[3].x = -10;
 	tops[3].y = 7;
 
+	color.r = 1;
+	color.g = 0.29;
+	color.b = 0.29;
+	shape = GL_QUADS;
+
 	speed = 1.0f;
 }
 
 
 Enemy::~Enemy()
 {
+	Game::current()->increaseDeadEnemies();
 }
 
 void Enemy::rotate()
@@ -42,33 +52,31 @@ void Enemy::rotate()
 		angle += 3.14159265359;
 }
 
+bool Enemy::isLive()
+{
+	return live;
+}
+
 void Enemy::update()
 {
 	Game *game = Game::current();
 	rotate();
 	move(speed*cos(angle), speed*sin(angle));
-	//position.x += speed*cos(angle);
-	//position.y += speed*sin(angle);
 }
 
-
-void Enemy::draw()
+bool Enemy::isHit(Bullet* bullet)
 {
-	glColor3f(1, 0.29, 0.29);
-	glBegin(GL_QUADS);
-
-	for (int i = 0; i < 4; i++)
-	{
-		points[i].x = tops[i].x*cos(angle) - tops[i].y*sin(angle) + position.x;
-		points[i].y = tops[i].y*cos(angle) + tops[i].x*sin(angle) + position.y;
-
-		glVertex2d(points[i].x, points[i].y);
+	float lengt = sqrt(pow(position.x - bullet->getPosition().x, 2) + pow(position.y - bullet->getPosition().y, 2));
+	if (lengt <= radius) {
+		cout << "is hit" << endl;
+		return true;
 	}
-
-	glEnd();
+	return false;
 }
-
 void Enemy::hit(Bullet* bullet)
 {
+	health -= bullet->getDamage();
+	if (health <= 0)
+		live = false;
 	cout << "hit" << endl;
 }

@@ -12,16 +12,9 @@ using namespace std;
 
 class Character: public Movable
 {
-	Point points[4];
-	Point tops[4];
-
 	int health;
 	int maxHealth;
 	float radius;
-
-	//Point position
-	//float angle;
-	//float speed;
 
 public:
 	
@@ -32,8 +25,6 @@ public:
 	void moveHorizontal(int);
 	void draw();
 	void rotation(Point);
-	//float getAngle();
-	//void setPosition(int, int);
 };
 
 #endif

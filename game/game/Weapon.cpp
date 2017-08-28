@@ -11,8 +11,8 @@ Weapon::Weapon()
 	avalibleBullets = capacityCollar;
 	lastShootTime = 0;
 	rateOfFire = 200;
-	damage = 10;
-	bulletSpeed = 7;
+	damage = 100;
+	bulletSpeed = 10;
 	bulletLife = 1000;
 }
 
@@ -22,32 +22,10 @@ Weapon::~Weapon()
 
 void Weapon::update()
 {
-	//if (!bulletList.empty())
-	//{
-	//	list<Bullet*>::iterator iter = bulletList.begin();
-	//	while (iter != bulletList.end()) {
-	//		(*iter)->update();
-	//		if (!(*iter)->isLive())
-	//		{
-	//			cout << "die" << endl;
-	//			delete (*iter);
-	//			iter = bulletList.erase(iter);
-	//		} else
-	//			iter++;
-	//	}
-	//}
 }
 
 void Weapon::draw()
 {
-	//if (!bulletList.empty())
-	//{
-	//	list<Bullet*>::iterator iter = bulletList.begin();
-	//	while ( iter != bulletList.end() ) {
-	//		(*iter)->draw();
-	//		iter++;
-	//	}
-	//}
 	char textAvalibleBullets[6] = "";
 	char textCountBullets[6] = "";
 	char textMaxBullets[6] = "";
@@ -78,14 +56,12 @@ void Weapon::shoot(Point position, float angle)
 	long now = clock();
 	int diff = now - lastShootTime;
 
-	if(diff >= rateOfFire)
-	{
+	if(diff >= rateOfFire) {
 		if (avalibleBullets > 0) {
 			avalibleBullets--; // уменьшаем кол-во пуль доступных к стрельбе
 			lastShootTime = now; // время последнего выстрела
 			Bullet* b = new Bullet(position, angle, bulletSpeed, bulletLife, damage);
 			Game::current()->bulletManager->push(b);
-			//bulletList.push_back(b);
 		}
 		else {
 			// выдать звук пустого магазина
@@ -96,8 +72,7 @@ void Weapon::shoot(Point position, float angle)
 
 void Weapon::recharge()
 {
-	if (countBullets > 0)
-	{
+	if (countBullets > 0) {
 		int add = capacityCollar - avalibleBullets;
 		if (add > countBullets)
 			add = countBullets;
@@ -105,8 +80,7 @@ void Weapon::recharge()
 		countBullets -= add; // уменьшаем общее кол-во пуль
 		// выдать звук перезарядки
 		cout << "recharge" << endl;
-	}
-	else {
+	} else {
 		// выдать звук пустого магазина
 		cout << "can't recharge" << endl;
 	}

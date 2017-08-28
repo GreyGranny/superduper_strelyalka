@@ -1,5 +1,6 @@
-﻿# include "Character.h"
-# include "Game.h"
+﻿#include "Character.h"
+#include "Game.h"
+#include <vector>
 
 using namespace std;
 
@@ -13,6 +14,9 @@ Character::Character()
 	position.x = 0.0f;
 	position.y = 0.0f;
 
+	tops = vector<Point>(4);
+	points = vector<Point>(4);
+
 	tops[0].x = -30;
 	tops[0].y = -25;
 
@@ -23,10 +27,14 @@ Character::Character()
 	tops[2].y = 10;
 
 	tops[3].x = -30;
-	tops[3].y = +25;
+	tops[3].y = 25;
 	
 	speed = 5;
 
+	color.r = 0.35;
+	color.g = 0.6;
+	color.b = 0.79;
+	shape = GL_QUADS;
 	weapon = new Weapon();
 }
 
@@ -56,32 +64,10 @@ void Character::moveHorizontal(int sign)
 
 void Character::draw()
 {
-	glColor3f(0.35,0.6,0.79);
-	glBegin(GL_QUADS);
-
-	for (int i = 0; i < 4; i++)
-	{
-		points[i].x = tops[i].x*cos(angle) - tops[i].y*sin(angle) + position.x;
-		points[i].y = tops[i].y*cos(angle) + tops[i].x*sin(angle) + position.y;
-
-		glVertex2d(points[i].x, points[i].y); 
-	}
-
-	glEnd();
+	Object::draw();
 	weapon->draw();
 }
 
-//void Character::setPosition(int x, int y)
-//{
-//	position.x += x;
-//	position.y += y;
-//}
-
-
-//float Character::getAngle()
-//{
-//	return angle;
-//}
 
 
 

@@ -7,30 +7,26 @@
 #include <math.h>
 #include "Global.h"
 #include "Movable.h"
-#include "CanBeHit.h"
+#include "ExposedToBullets.h"
 
 using namespace std;
-class Enemy: public Movable, public CanBeHit
+class Enemy: public Movable, public ExposedToBullets
 {
-	Point points[4];
-	Point tops[4];
-
 	float radius;
 	int health;
 	int maxHealth;
 
-	//Point position;
-	//float angle;
-	//float speed;
+	bool live;
 
 public:
 
-	Enemy();
+	Enemy(float, float);
 	~Enemy();
 
 	void update();
-	void draw();
 	void rotate();
+	bool isLive();
+	bool isHit(Bullet*);
 	void hit(Bullet*);
 };
 

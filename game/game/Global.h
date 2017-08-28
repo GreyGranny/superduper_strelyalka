@@ -10,7 +10,7 @@ using namespace std;
 
 struct Point
 {
-	float x,y;
+	float x, y;
 
 	Point(){}
 
@@ -20,6 +20,19 @@ struct Point
 		y = _y;
 	}
 };
+
+struct Color
+{
+	float r, g, b;
+	Color(){}
+	Color(float _r, float _g, float _b)
+	{
+		r = _r;
+		g = _g;
+		b = _b;
+	}
+};
+
 
 class Global
 {

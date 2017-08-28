@@ -1,30 +1,38 @@
 ﻿#include "Bullet.h"
 #include "Game.h"
+#include <vector>
 
 using namespace std;
 
 Bullet::Bullet(Point position, float angle, int speed, int timeLife, int damage)
 {
 	this->position = position;
-	this->angle = angle;
+	this->angle = 0.0f;
 	this->speed = speed;
 	this->timeLife = timeLife;
 	this->damage = damage;
 
-	tops[0].x = -5;
-	tops[0].y = -5;
+	tops = vector<Point>(3);
+	points = vector<Point>(3);
 
-	tops[1].x = 5;
-	tops[1].y = -5;
+	tops[0].x = -3;
+	tops[0].y = -3;
+
+	tops[1].x = 3;
+	tops[1].y = -3;
 
 	tops[2].x = 0;
-	tops[2].y = 5;
+	tops[2].y = 3;
+
+	color.r = 1;
+	color.g = 0;
+	color.b = 0;
+	shape = GL_TRIANGLE_STRIP;
 
 	timeExist = 0;
 	live = true;
 
 	angleRotate = 0.8f;
-	rotation = 0.0f;
 	dx = speed*cos(angle);
 	dy = speed*sin(angle);
 }
@@ -34,41 +42,28 @@ Bullet::~Bullet()
 {
 }
 
-void Bullet::rotate()
-{
-	
-}
-
 void Bullet::update()
 {
 	if (timeExist >= timeLife) {
 		live = false;
 	}
 	else {
-		rotation += angleRotate;
+		angle += angleRotate;
 		move(dx, dy);
-		//position.x += dx;
-		//position.y += dy;
 		timeExist += Game::current()->getDelay();
 	}
 }
 
-void Bullet::draw()
+void Bullet::die()
 {
-	glColor3f(1, 0, 0);
-	glBegin(GL_TRIANGLE_STRIP);
-	for (int i = 0; i < 3; i++)
-	{
-		points[i].x = tops[i].x*cos(rotation) - tops[i].y*sin(rotation) + position.x;
-		points[i].y = tops[i].y*cos(rotation) + tops[i].x*sin(rotation) + position.y;
-
-		glVertex2d(points[i].x, points[i].y);
-	}
-
-	glEnd();
+	live = false;
 }
-
 bool Bullet::isLive()
 {
 	return live;
+}
+
+int Bullet::getDamage()
+{
+	return damage;
 }

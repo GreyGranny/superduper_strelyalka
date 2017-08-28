@@ -1,8 +1,10 @@
-﻿# include <glut.h>
-# include <stdlib.h>
-# include "Game.h"
-# include "Character.h"
-# include "Player.h"
+﻿#include <glut.h>
+#include <stdlib.h>
+#include "Game.h"
+#include "Character.h"
+#include "Player.h"
+
+using namespace std;
 
 Game* Game::instance = NULL;
 
@@ -18,6 +20,9 @@ Game::Game(int wWidth, int wHeight)
 
 	mapWidth = 2 * windowWidth;
 	mapHeight = 2 * windowHeight;
+
+	tileParams.x = mapWidth / 100;
+	tileParams.y = mapHeight / 100;
 	
 	playerAreaBLPoint = Point(windowWidth*0.25, windowHeight*0.25);
 	playerAreaTRPoint = Point(windowWidth*0.75, windowHeight*0.75);
@@ -44,6 +49,7 @@ void Game::initGL()
 	glLoadIdentity();
 	glMatrixMode(GL_PROJECTION);
 	gluOrtho2D(0, getWidthWindow(), 0, getHeightWindow());
+	
 
 	//glutFullScreen();
 
@@ -60,23 +66,59 @@ void Game::initGL()
 
 void Game::initMap()
 {
-
 }
 
 void Game::run()
 {
 	initGL();
 	initMap();
-
-	Enemy *en = new Enemy();
-	enemyList.push_back(en);
-
+	setWaves();
 	glutMainLoop();
 }
 
 void Game::exit()
 {
 	::exit(0);
+}
+
+void Game::addExpToBulletObject(ExposedToBullets *obj)
+{
+	expToBulletsList.push_back(obj);
+}
+void Game::eraseFromLists(ExposedToBullets *obj)
+{
+	if (!enemyList.empty()) {
+		list<Enemy*>::iterator iter = enemyList.begin();
+		while (iter != enemyList.end()) {
+			if ((*iter) == obj) {
+				iter = enemyList.erase(iter);
+			}
+			else
+				iter++;
+		}
+	}
+}
+
+void Game::setWaves()
+{
+	WaveOfEnemies *wave1 = new WaveOfEnemies();
+	WaveOfEnemies *wave2 = new WaveOfEnemies();
+	waveList.push_back(wave1);
+	waveList.push_back(wave2);
+	currentWave = wave1;
+}
+
+void Game::setEnemies()
+{
+	if (enemyList.size() < currentWave->getOneTimeCount()) {
+		if ( (currentWave->getDeadCount() + enemyList.size()) <  currentWave->getTotal())
+			enemyList.push_back(new Enemy(1 + rand() % (getWidthWindow() - 1), 1 + rand() % (getHeightWindow() - 1)));
+	}
+}
+
+void Game::increaseDeadEnemies()
+{
+	currentWave->increaseDeadCount();
 }
 
 void Game::drawScene()
@@ -147,9 +189,19 @@ void Game::drawScene()
 void Game::update()
 {
 	player->update();
+	
+	if (currentWave && currentWave->isFinished()) {
+		if (!waveList.empty()) {
+			currentWave = *waveList.begin();
+			waveList.pop_front();
+		} else
+			currentWave = NULL;
+	}
 
-	if (!enemyList.empty())
-	{
+	if (currentWave)
+		setEnemies();
+
+	if (!enemyList.empty()) {
 		list<Enemy*>::iterator iter = enemyList.begin();
 		while (iter != enemyList.end()) {
 			(*iter)->update();
@@ -178,8 +230,7 @@ void Game::display()
 void Game::eventKeyboard(unsigned char key, int a, int b)
 {
 	Game* game = Game::current();
-	switch(key)
-	{
+	switch(key) {
 		case 'w': case 'W': case 246 : game->player->setUpPress(true); break;
 		case 'd': case 'D': case 226 : game->player->setRightPress(true); break;
 		case 'a': case 'A': case 244 : game->player->setLeftPress(true); break;
@@ -193,8 +244,7 @@ void Game::eventKeyboard(unsigned char key, int a, int b)
 void Game::eventKeyboardUp(unsigned char key, int a, int b)
 {   
 	Game* game = Game::current();
-	switch(key)
-	{
+	switch(key) {
 		case 'w': case 246 : game->player->setUpPress(false); break;             
 		case 'd': case 226 : game->player->setRightPress(false); break;
 		case 'a': case 244 : game->player->setLeftPress(false); break;
@@ -271,4 +321,9 @@ Point Game::getPlayerAreaTRPoint()
 Point Game::getCamera()
 {
 	return current()->camera;
+}
+
+Point Game::getTileParams()
+{
+	return tileParams;
 }

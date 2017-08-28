@@ -7,6 +7,8 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "BulletManager.h"
+#include "ExposedToBullets.h"
+#include "WaveOfEnemies.h"
 
 using namespace std;
 
@@ -15,16 +17,23 @@ class Game
 	static Game* instance;
 	int windowWidth, windowHeight;
 	int mapWidth, mapHeight;
+	int tileWidth, tileHeight;
 	int delay;
+
 	Point playerAreaBLPoint;
 	Point playerAreaTRPoint;
 	Point camera;
+	Point tileParams;
 
-	list<Enemy*> enemyList; //  список врагов
 
 public:
 	Player* player;
 	BulletManager *bulletManager;
+	WaveOfEnemies *currentWave;
+
+	list<ExposedToBullets*> expToBulletsList;// список объеков по которым можно выстрелить
+	list<Enemy*> enemyList; // список врагов
+	list<WaveOfEnemies*> waveList; // список волн
 
 	Game(int, int);
 	~Game();
@@ -36,6 +45,12 @@ public:
 	void initMap();
 	void run();
 	void exit();
+	void addExpToBulletObject(ExposedToBullets*);
+	void eraseFromLists(ExposedToBullets*);
+	void setWaves();
+	void setEnemies();
+	void increaseDeadEnemies();
+	Point getTileParams();
 
 	static Game* current();
 	static int getHeightWindow();

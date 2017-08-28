@@ -8,13 +8,11 @@ class Movable: public Object
 {
 protected:
 	float speed;
-	float angle;
 
 public:
 	Movable();
 	~Movable();
 	void move(float, float);
-	float getAngle();
 };
 
 #endif
