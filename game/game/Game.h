@@ -32,7 +32,7 @@ public:
 	WaveOfEnemies *currentWave;
 
 	list<ExposedToBullets*> expToBulletsList;// список объеков по которым можно выстрелить
-	list<Enemy*> enemyList; // список врагов
+	//list<Enemy*> enemyList; // список врагов
 	list<WaveOfEnemies*> waveList; // список волн
 
 	Game(int, int);
@@ -48,7 +48,6 @@ public:
 	void addExpToBulletObject(ExposedToBullets*);
 	void eraseFromLists(ExposedToBullets*);
 	void setWaves();
-	void setEnemies();
 	void increaseDeadEnemies();
 	Point getTileParams();
 

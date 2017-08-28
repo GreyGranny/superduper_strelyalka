@@ -2,14 +2,14 @@
 #include "Game.h"
 #include <vector>
 
-Enemy::Enemy(float x, float y)
+Enemy::Enemy()
 {
 	radius = 15.0;
 	angle = 0.0;
 	health = maxHealth = 100;
 
-	position.x = x;
-	position.y = y;
+	position.x = 1 + rand() % (Game::current()->getWidthWindow() - 1);
+	position.y = 1 + rand() % (Game::current()->getHeightWindow() - 1);
 
 	tops = vector<Point>(4);
 	points = vector<Point>(4);

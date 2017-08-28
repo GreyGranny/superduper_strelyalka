@@ -87,11 +87,12 @@ void Game::addExpToBulletObject(ExposedToBullets *obj)
 }
 void Game::eraseFromLists(ExposedToBullets *obj)
 {
-	if (!enemyList.empty()) {
-		list<Enemy*>::iterator iter = enemyList.begin();
-		while (iter != enemyList.end()) {
+	if (!currentWave->enemyList.empty()) {
+		list<Enemy*>::iterator iter = currentWave->enemyList.begin();
+		while (iter != currentWave->enemyList.end()) {
 			if ((*iter) == obj) {
-				iter = enemyList.erase(iter);
+				iter = currentWave->enemyList.erase(iter);
+				break;
 			}
 			else
 				iter++;
@@ -106,14 +107,6 @@ void Game::setWaves()
 	waveList.push_back(wave1);
 	waveList.push_back(wave2);
 	currentWave = wave1;
-}
-
-void Game::setEnemies()
-{
-	if (enemyList.size() < currentWave->getOneTimeCount()) {
-		if ( (currentWave->getDeadCount() + enemyList.size()) <  currentWave->getTotal())
-			enemyList.push_back(new Enemy(1 + rand() % (getWidthWindow() - 1), 1 + rand() % (getHeightWindow() - 1)));
-	}
 }
 
 void Game::increaseDeadEnemies()
@@ -159,6 +152,9 @@ void Game::drawScene()
 	//------//
 
 	glTranslatef(-camera.x, -camera.y, 0.0f);
+
+
+	// для удобства  - потом удалить
 	glColor3f(1, 0, 0);
 	glBegin(GL_QUADS);
 
@@ -171,16 +167,11 @@ void Game::drawScene()
 	}
 
 	glEnd();
+	//------//
 
+	if (currentWave)
+		currentWave->draw();
 
-	if (!enemyList.empty())
-	{
-		list<Enemy*>::iterator iter = enemyList.begin();
-		while (iter != enemyList.end()) {
-			(*iter)->draw();
-			iter++;
-		}
-	}
 	bulletManager->draw();
 	player->character->draw();
 
@@ -199,15 +190,8 @@ void Game::update()
 	}
 
 	if (currentWave)
-		setEnemies();
+		currentWave->update();
 
-	if (!enemyList.empty()) {
-		list<Enemy*>::iterator iter = enemyList.begin();
-		while (iter != enemyList.end()) {
-			(*iter)->update();
-			iter++;
-		}
-	}
 	bulletManager->update();
 }
 

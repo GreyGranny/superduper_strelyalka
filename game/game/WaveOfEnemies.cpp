@@ -41,3 +41,30 @@ void WaveOfEnemies::increaseDeadCount()
 	if (deadCount >= totalCount)
 		finished = true;
 }
+
+void WaveOfEnemies::update()
+{
+	if (enemyList.size() < oneTimeCount)
+		if ((deadCount + enemyList.size()) <  totalCount)
+			enemyList.push_back(new Enemy());
+
+	if (!enemyList.empty()) {
+		list<Enemy*>::iterator iter = enemyList.begin();
+		while (iter != enemyList.end()) {
+			(*iter)->update();
+			iter++;
+		}
+	}
+}
+
+void WaveOfEnemies::draw()
+{
+	if (!enemyList.empty())
+	{
+		list<Enemy*>::iterator iter = enemyList.begin();
+		while (iter != enemyList.end()) {
+			(*iter)->draw();
+			iter++;
+		}
+	}
+}

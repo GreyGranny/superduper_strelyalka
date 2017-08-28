@@ -12,15 +12,15 @@
 using namespace std;
 class Enemy: public Movable, public ExposedToBullets
 {
-	float radius;
 	int health;
 	int maxHealth;
+	float radius;
 
 	bool live;
 
 public:
 
-	Enemy(float, float);
+	Enemy();
 	~Enemy();
 
 	void update();
